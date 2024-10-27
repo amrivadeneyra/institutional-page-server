@@ -9,7 +9,7 @@ func main() {
 	if err := godotenv.Load("../configs/config.dev.yaml"); err != nil {
 		logrus.Info("No .env file found")
 	}
-
+d
 
 	bindingPort := 3000
 }
