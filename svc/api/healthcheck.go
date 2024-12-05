@@ -1,4 +1,4 @@
-package handler
+package colegioapi
 
 import (
 	"fmt"

@@ -1,9 +1,9 @@
-package dni
+package colegioapi
 
 import (
+	"colegio/server/svc/middleware"
 	"context"
 	"net/http"
-	"service/internal/handler"
 
 	"github.com/go-chi/chi/v5"
 	"github.com/go-chi/cors"
@@ -22,20 +22,15 @@ func NewRouter() *chi.Mux {
 
 	router.Route("/api/v1", func(r chi.Router) {
 		r.Use(apiVersionCtx("v1"))
-		r.Get("/healthcheck", handler.HealthcheckHandler)
+		r.Get("/healthcheck", HealthcheckHandler)
 
 		// User
 		r.Route("/user", func(r chi.Router) {
 			//r.Get("/verify/email", VerifyEmailHandler)
-			//r.Group(func(r chi.Router) {
-			//	r.Use(middleware.RequiresAuth)
-			//	r.Get("/", GetUsersHandler)
-			//	r.Get("/{id}", GetUserHanlder)
-			//	r.Get("/dropdown", GetUsersForDropdownHandler)
-			//	r.Get("/role", GetUsersByRoleHandler)
-			//	r.Put("/{id}", UpdateUserHandler)
-			//	r.Post("/", CreateUserHandler)
-			//})
+			r.Group(func(r chi.Router) {
+				r.Use(middleware.RequiresAuth)
+				r.Post("/", CreateUserHandler)
+			})
 		})
 
 		// Login
@@ -49,8 +44,28 @@ func NewRouter() *chi.Mux {
 		})
 
 		r.Route("/logout", func(r chi.Router) {
-			//r.Use(middleware.RequiresAuth)
+			r.Use(middleware.RequiresAuth)
 			//r.Post("/", LogoutHandler)
+		})
+
+		// Task
+		r.Route("/task", func(r chi.Router) {
+			//r.Use(middleware.RequiresAuth)
+			//r.Get("/{id}", GetTaskHandler)
+			//r.Post("/", CreateTaskHandler)
+			//r.Put("/{id}", UpdateTaskHandler)
+			//r.Put("/dueDate/{id}", UpdateTaskDueDateHandler)
+			//r.Delete("/{id}", DeleteTaskHandler)
+			//r.Get("/currentUser", GetTasksByCurrentUserHandler)
+			//r.Get("/draggable/{id}", GetTasksForDraggableHandler)
+			//r.Get("/", GetTasksHandler)
+		})
+
+		r.Route("/user-settings", func(r chi.Router) {
+			//r.Use(middleware.RequiresAuth)
+			//r.Get("/", GetUserSettingsHandler)
+			//r.Post("/", CreateUserSettingsHandler)
+			//r.Put("/{id}", UpdateUserSettingsHandler)
 		})
 	})
 
